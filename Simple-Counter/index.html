@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Simple Counter</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        .min {
+            display: inline;
+            padding: 5px 10px;
+        }
+        .number {
+            display: inline;
+            margin-left: 1rem;
+            margin-right: 1rem;
+            font-size: 1.5em;
+        }
+        .plus {
+            padding: 5px 10px;
+        }
+        .reset {
+            display: block;
+            margin-top: 20px;
+            margin-left: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        const container = document.getElementById('root')
+        const root = ReactDOM.createRoot(container)
+
+        function CounterBody() {
+            let [total, setTotal] = React.useState(0)
+
+            function addition() {
+                if (total >= 10) {
+                    setTotal('done')
+                } else {
+                    setTotal(total + 1)
+                }
+
+            }
+
+            function subtraction () {
+                if (total <= 0) {
+                    setTotal('done')
+                } else {
+                    setTotal(total - 1)
+                }
+            }
+
+            function reset () {
+                setTotal(total == 0)
+            }
+
+            return( 
+                <>
+                    <button onClick={subtraction} className="min">-</button>
+                    <h1 className="number">{total ? total : 0}</h1>
+                    <button onClick={addition} className="plus">+</button>
+                    <button onClick={reset} className="reset">Reset</button>
+                </>
+            )
+
+
+        }
+        root.render(<CounterBody/>)
+    </script>
+</body>
+</html>

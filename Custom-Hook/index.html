@@ -1,0 +1,73 @@
+<!-- 
+- this file used to create custom hooks and make generalization component
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Exploration</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        const container = document.getElementById('root')
+        const root = ReactDOM.createRoot(container)
+
+        const useToggle = () => {
+            const [status, setStatus] = React.useState(false);
+
+            const toggleStatus = React.useCallback(() => {
+                setStatus((prevStatus) => !prevStatus);
+            }, []);
+
+            const values = React.useMemo(
+                () => ({
+                status,
+                toggleStatus
+                }),
+                [status, toggleStatus]
+            );
+
+            return values;
+        };
+
+        const Editable = () => {
+            const { status: editable, toggleStatus: toggleEditable } = useToggle();
+            const [inputValue, setInputValue] = React.useState("Title");
+
+            const handleInputChange = (e) => {
+                setInputValue(e.target.value);
+            };
+
+            return (
+                <div>
+                {editable ? (
+                    <label htmlFor="title">
+                    Title:
+                    <input
+                        type="text"
+                        id="title"
+                        value={inputValue}
+                        onChange={handleInputChange}
+                    />
+                    </label>
+                ) : (
+                    <>Title: {inputValue}</>
+                )}
+                <button onClick={toggleEditable}>{editable ? "Cancel" : "Edit"}</button>
+                </div>
+            );
+        };
+
+        root.render(<Editable/>)
+    </script>
+</body>
+</html>
